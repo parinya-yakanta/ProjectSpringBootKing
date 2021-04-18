@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,6 +19,34 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User update(User user) {
+        return userRepository.save(user);
+    }
+
+    public User updateName(String id, String name) throws BaseException {
+        Optional<User> opt = userRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw UserException.notFound();
+        }
+
+        User user = opt.get();
+        user.setName(name);
+
+        return userRepository.save(user);
+    }
+
+    public void deleteById(String id) {
+        userRepository.deleteById(id);
+    }
+
+    public boolean matchPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     public  User create(String email, String password, String name) throws BaseException {

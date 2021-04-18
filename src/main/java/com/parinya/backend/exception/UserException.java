@@ -5,6 +5,10 @@ public class UserException extends BaseException{
         super("user. " + code);
     }
 
+    public static UserException notFound() {
+        return new UserException("user.not.found");
+    }
+
     public static UserException requestNull() {
         return new UserException("register.request.null");
     }
@@ -28,4 +32,13 @@ public class UserException extends BaseException{
     public static UserException createEmailDuplicated() {
         return new UserException("create.CreateEmail.Duplicated");
     }
+
+    public static UserException loginFailEmailNotFound() {
+        return new UserException("login.fail");
+    }
+
+    public static UserException loginFailPasswordIncorrect() {
+        return new UserException("login.fail");
+    }
+
 }
