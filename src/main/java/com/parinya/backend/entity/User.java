@@ -4,8 +4,8 @@ package com.parinya.backend.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,5 +23,11 @@ public class User extends BaseEntity {
     private String name;
 
     private String civilId;
+
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private Social social;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Address> addresses;
 
 }
